@@ -22,24 +22,39 @@ fi
 
 echo "Guess the secret number between 1 and 1000:"
 read GUESS
+TRIES=1
+while [ ! $GUESS -eq $SECRET_NUMBER ]
+do
 
-if [[ ! $GUESS =~ ^[0-9]+$ ]]
-then
+  TRIES=$TRIES+1
 
-else
-
-
-  if [[ $GUESS -gt $SECRET_NUMBER]]
-
+  if [[ ! $GUESS =~ ^[0-9]+$ ]]
   then
-  elif [[ $GUESS -lt $SECRET_NUMBER ]]
-  then
-
+    echo "That is not an integer, guess again:"
+    read GUESS
   else
+
+    if [[ $GUESS -gt $SECRET_NUMBER]]
+    then
+
+    echo "It's higher than that, guess again:"
+    read GUESS
+
+    elif [[ $GUESS -lt $SECRET_NUMBER ]]
+    then
+
+      echo "It's lower than that, guess again:"
+      read GUESS
+
+    fi
 
   fi
 
-  
-fi
+done
+
+# insert data from game
+echo "You guessed it in $TRIES tries. The secret number was $SECRET_NUMBER. Nice job!"
+
+
 
 
