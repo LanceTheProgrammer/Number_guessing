@@ -25,7 +25,7 @@ USER_ID=$($PSQL "SELECT user_id FROM users WHERE username = '$USERNAME'")
 
 # echo $SECRET_NUMBER
   
-  TRIES=1
+  TRIES=2
   GUESS=0
 
 GUESSING_MACHINE(){
