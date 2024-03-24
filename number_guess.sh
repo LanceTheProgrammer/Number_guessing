@@ -59,6 +59,10 @@ GUESSING_MACHINE(){
     GUESSING_MACHINE
   fi
 
+  # insert data from game
+INSERTED_GAME=$($PSQL "INSERT INTO games (user_id, guesses, secret_number) VALUES ($USER_ID, $TRIES, $SECRET_NUMBER)")
+echo "You guessed it in $TRIES tries. The secret number was $SECRET_NUMBER. Nice job!"
+
 }
 
 
@@ -66,9 +70,6 @@ echo "Guess the secret number between 1 and 1000:"
 GUESSING_MACHINE
 
 
-# insert data from game
-INSERTED_GAME=$($PSQL "INSERT INTO games (user_id, guesses) VALUES ($USER_ID, $TRIES)")
-echo "You guessed it in $TRIES tries. The secret number was $SECRET_NUMBER. Nice job!"
 
 
 
