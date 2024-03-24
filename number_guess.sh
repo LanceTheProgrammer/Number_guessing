@@ -16,7 +16,7 @@ VALIDATE_USER=$($PSQL "select user_id from users where username = '$USERNAME';")
 # username validation
 if [[ -z $VALIDATE_USER ]]; then
   # first time user
-  echo "Welcome, $USERNAME! It looks like this is your first time here."
+  echo -e "\nWelcome, $USERNAME! It looks like this is your first time here."
   
   # insert new username
   INSERT_INTO_USERS=$($PSQL "insert into users(username) values('$USERNAME');")
@@ -25,7 +25,7 @@ if [[ -z $VALIDATE_USER ]]; then
   GET_USER_ID=$($PSQL "select user_id from users where username = '$USERNAME';")  
 
   # insert game_name and user_id to register game
-  INSERT_GAME_NAME=$($PSQL "insert into games(username, user_id) values('$GAME_NAME', $GET_USER_ID);")
+  INSERT_GAME_NAME=$($PSQL "insert into games(game_name, user_id) values('$GAME_NAME', $GET_USER_ID);")
 
   # query game_id
   GET_GAME_ID=$($PSQL "select game_id from games where user_id = '$GET_USER_ID';")
@@ -35,14 +35,14 @@ if [[ -z $VALIDATE_USER ]]; then
 else
   # existing user
   GAMES_PLAYED=$($PSQL "select count(game_id) from games where user_id = $VALIDATE_USER;")
-  BEST_GAME=$($PSQL "select min(guess_count) from games where user_id = $VALIDATE_USER;")
+  BEST_GAME=$($PSQL "select min(guesses) from games where user_id = $VALIDATE_USER;")
   echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
 
   # get user_id based on username
   GET_USER_ID=$($PSQL "select user_id from users where username = '$USERNAME';")  
 
   # insert game_name and user_id to register game
-  INSERT_GAME_NAME=$($PSQL "insert into games(username, user_id) values('$GAME_NAME', $GET_USER_ID);")
+  INSERT_GAME_NAME=$($PSQL "insert into games(game_name, user_id) values('$GAME_NAME', $GET_USER_ID);")
 fi
 
 # generate random number up to 1000
@@ -55,7 +55,7 @@ echo "Guess the secret number between 1 and 1000:"
 # loop until number_guessed is equal to correct_random_guess
 until [[ $NUMBER_GUESSED -eq $CORRECT_RANDOM_GUESS ]]; do
   read NUMBER_GUESSED
-  #(( GUESS_COUNT++ ))
+  (( GUESS_COUNT++ ))
 
   # integer validation
   if [[ ! $NUMBER_GUESSED =~ ^[0-9]+$ ]]; then
@@ -77,7 +77,7 @@ done
 #(( GUESS_COUNT++ ))
 
 # query game_id
-GET_GAME_ID=$($PSQL "select game_id from games where username = '$GAME_NAME';")
+GET_GAME_ID=$($PSQL "select game_id from games where game_name = '$GAME_NAME';")
 
 # update guess_count based on game_id
 UPDATE_GUESS_COUNT_IN_GAMES=$($PSQL "update games set guesses = $GUESS_COUNT where game_id = $GET_GAME_ID;")
