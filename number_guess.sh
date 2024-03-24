@@ -34,7 +34,7 @@ GUESSING_MACHINE(){
 
   
 
-  while [[ $GUESS =~ ^[0-9]+$ && ! $GUESS -eq $SECRET_NUMBER ]]
+  while [[ $GUESS =~ ^[0-9]+$ && ! $GUESS -eq $SECRET_NUMBER ]];
   do
 
   TRIES=$(expr $TRIES + 1)
@@ -45,7 +45,7 @@ GUESSING_MACHINE(){
   echo "It's lower than that, guess again:"
   read GUESS
 
-  elif [[ $GUESS -lt $SECRET_NUMBER ]]
+  elif [[ $GUESS -lt $SECRET_NUMBER ]];
   then
 
     echo "It's higher than that, guess again:"
